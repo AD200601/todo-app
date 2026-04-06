@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => { //Saara html ho jaega uske
     });
     const emptyImage = document.getElementById('empty-image'); //empty image ko store kar raha hai
     const dueDateInput = document.getElementById('due-date'); //due date input field ko store kar raha hai
+    const dateBtn = document.querySelector('.date-btn');
+    dateBtn.addEventListener('click', () => {
+        dueDateInput.showPicker();
+    });
     const prioritySelect = document.getElementById('priority-select'); //priority select field ko store kar raha hai
     
     const toggleEmptyState = () => {
@@ -22,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => { //Saara html ho jaega uske
 
     const saveTasks = () => {
         const tasks = Array.from(taskList.querySelectorAll('li')).map(li => ({
-            text: li.querySelector('span').textContent,
+            text: li.querySelector('.task-text').textContent,
             completed: li.querySelector('.checkbox').checked,
             dueDate: li.getAttribute('data-date'),
             priority: li.getAttribute('data-priority')
@@ -87,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => { //Saara html ho jaega uske
         }, 400);
     };
 
-    const addTask = (text, completed = false, dueDate = null, priority = 'null') => { //naya task add karne ke liye function create kar raha hai, jisme text aur completed parameters le raha hai. text parameter me user ke input ko store kar raha hai, aur completed parameter me task complete hai ya nahi, iska status store kar raha hai
-        const taskPriority = (priority && priority !== 'null') ? priority : (prioritySelect.value || 'medium'); //agar priority parameter me valid value hai to usko use karo, warna select field se priority le lo, agar select field me bhi koi value nahi hai to default 'medium' use karo
+    const addTask = (text, completed = false, dueDate = null, priority = null) => { //naya task add karne ke liye function create kar raha hai, jisme text aur completed parameters le raha hai. text parameter me user ke input ko store kar raha hai, aur completed parameter me task complete hai ya nahi, iska status store kar raha hai
+        const taskPriority = priority ? priority : (prioritySelect.value || 'medium'); //agar priority parameter me valid value hai to usko use karo, warna select field se priority le lo, agar select field me bhi koi value nahi hai to default 'medium' use karo
         const taskText =  text || taskInput.value.trim(); //user ke input ko trim kar raha hai, yani extra spaces hata raha hai
         if (!taskText) return; //agar user ne kuch bhi input nahi kiya hai to function se bahar aa jao
 
@@ -121,17 +125,21 @@ document.addEventListener('DOMContentLoaded', () => { //Saara html ho jaega uske
     };
 
     const status = getDateStatus(taskDate); //task date ke status ko get kar raha hai, taki task ke due date ke hisab se uska status determine kar sake, yani task overdue hai, today hai ya upcoming hai
-
-        li.innerHTML = `
+    li.innerHTML = `
+    <div class="task-top">
         <input type="checkbox" class="checkbox" ${completed ? 'checked' : ''}>
-        <span>${taskText}</span>
-        ${taskDate ? `<small class="due-date ${status}">📅 ${formatDate(taskDate)}</small>` : ''} 
-        <span class="priority-badge ${taskPriority}">${taskPriority}</span>
-        <div class="task-buttons">
-            <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
-            <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+        <span class="task-text">${taskText}</span>
+
+        <div class="task-right">
+            ${taskDate ? `<small class="due-date ${status}">📅 ${formatDate(taskDate)}</small>` : '<span></span>'} 
+            <span class="priority-badge ${taskPriority}">${taskPriority}</span>
+            <div class="btn-group">
+                <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+            </div>
         </div>
-        `;
+    </div>
+    `;
 
         li.classList.add(`priority-${taskPriority}`);
         if (taskDate) {
@@ -141,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => { //Saara html ho jaega uske
 
         const checkbox = li.querySelector('.checkbox');
 
-        const taskSpan = li.querySelector('span');
+        const taskSpan = li.querySelector('.task-text');
         taskSpan.addEventListener('click', () => {
             taskSpan.classList.toggle('expanded');
         });
