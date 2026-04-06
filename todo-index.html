@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="todo-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h1>To-Do App</h1>
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span id="progress-text">0 of 0 tasks completed</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
+            </div>
+            <form class="input-area">
+                <input type="text" id="task-input" placeholder="Add a new task..." required>
+                <select id="priority-select">
+                    <option value="low">🔵</option>
+                    <option value="medium" selected>🟣</option>
+                    <option value="high">🟠</option>
+                </select>
+                <label for="due-date" class="date-btn" title="Pick a due date"><i class="fa-solid fa-calendar"></i>
+                    <input type="date" id="due-date">
+                </label>
+                <button type="submit" id="add-task-btn"><i class="fa-solid fa-plus"></i></button>
+            </form>
+            <div class="todo-container">
+                <ul id="task-list"></ul>
+                <img src="images-todo/empty-img.avif" alt="No tasks" id="empty-image">
+            </div>
+            <div class="legend-labeldate">Due Date</div>
+            <div class="legend">
+                <span class="overdue">🔴 Overdue</span>
+                <span class="today">🟡 Today</span>
+                <span class="upcoming">🟢 Upcoming</span>
+            </div>
+            <div class="legend-labelprio">Priority</div>
+            <div class="legend">
+                <span class="priority-low">🔵 Low</span>
+                <span class="priority-medium">🟣 Medium</span>
+                <span class="priority-high">🟠 High</span>
+            </div>
+        </div>
+    </div>
+<script src="todo-script.js"></script>
+</body>
+</html>

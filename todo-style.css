@@ -1,0 +1,633 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Josefin Sans", sans-serif;
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    min-height: 100vh;
+    background: url('https://avatars.mds.yandex.net/i?id=09b4f548f767e79e9a3e78b7c1b84e494660bafd-5302823-images-thumbs&n=13') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    padding-top: 20px;      
+    padding-bottom: 20px; 
+}
+
+.todo-app {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+}
+
+.todo-app h1 {
+    font-size: 2.5rem;
+}   
+
+.input-area {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    justify-content: space-between;
+    align-items:center;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.input-area input {
+    flex:1 1 auto;
+    min-width:0;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+    border-radius: 22px;
+    background:rgba(98, 95, 95, 0.605);
+    color: rgb(255, 255, 255);
+}
+
+.input-area button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: rgb(1, 1, 1);
+    background-color: rgba(222, 210, 210, 0.758);
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;  
+    transition: all 0.2s ease;
+}
+
+.input-area button:hover {
+    transform: scale(1.1);
+    background: rgb(245, 242, 242); 
+}
+
+.todo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;      
+    overflow: visible; 
+    padding: 3px; 
+}
+
+.progress-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: -10px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: center;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background: linear-gradient(to right, #00c853, #b2ff59);
+    transition: width 0.4s ease, background 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+        max-height: 200px;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+        max-height: 0;
+        margin-bottom: 0;
+        padding: 0;
+    }
+}
+
+#task-list {
+    width: 100%;
+    padding: 3px;
+    padding-right: 8px;
+    max-height: 300px;      
+    overflow-y: scroll;       
+    overflow-x: hidden;
+}
+
+#task-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(124, 118, 118, 0.5);
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    color: white;
+    position: relative;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    animation: slideIn 0.3s ease forwards;
+}
+#task-list li.removing {
+    animation: slideOut 0.3s ease forwards;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#task-list li:hover {
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
+    transform: scale(1.01);
+}
+
+#task-list li input.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(217, 212, 212, 0.5);;
+    border-radius: 50%;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+#task-list li input.checkbox:checked {
+    background: rgb(0, 0, 0);
+}
+
+#task-list li input.checkbox:checked::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: "✔";
+    color: rgb(13, 255, 0);
+    font-size: 14px;
+}
+
+#task-list span {
+    flex: 1 1 0;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    cursor: pointer; 
+    transition: all 0.2s ease;
+}
+
+#task-list li:hover span,
+#task-list span.expanded {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    max-width: 100%;
+}
+
+#task-list li.completed span {
+    text-decoration: 2px line-through;
+    opacity: 0.5;
+    color: black;
+}
+
+#task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#task-list::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+#task-list::-webkit-scrollbar-thumb {
+    background: transparent;   
+    border-radius: 10px;
+}
+
+#task-list.show-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);  
+}
+
+#task-list.show-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);   
+}
+
+.task-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;  
+    flex-shrink: 0;     
+    align-self: center; 
+}
+
+.task-buttons button {
+    background: rgba(217, 212, 212, 0.5);
+    border: none;
+    padding: 5px 8px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-buttons button:hover {
+    transform: scale(1.2);
+}
+
+.task-buttons .edit-btn {
+    background: rgb(255, 145, 0);
+}
+
+.task-buttons .delete-btn {
+    background: rgb(255, 0, 0);
+}
+
+#empty-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+#priority-select {
+    background: rgba(222, 210, 210, 0.758);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    appearance: none;
+    outline: none;
+    padding: 0;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+#priority-select:hover {
+    background: rgb(255, 255, 255);
+    transform: scale(1.1);
+}
+
+.priority-badge {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 6px 6px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.priority-badge.high {
+    background: rgba(255, 160, 59, 0.301);
+    color: #562800;
+}
+
+.priority-badge.medium {
+    background: rgba(175, 54, 249, 0.25);
+    color: #45024f;
+}
+
+.priority-badge.low {
+    background: rgba(20, 94, 243, 0.25);
+    color: #05014d;
+}
+
+/* priority left border indicator on the li */
+#task-list li.priority-high {
+    border-left: 4px solid #ff6b6b;
+}
+
+#task-list li.priority-medium {
+    border-left: 4px solid #ffd93d;
+}
+
+#task-list li.priority-low {
+    border-left: 4px solid #6bcb77;
+}
+
+.date-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(222, 210, 210, 0.758);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.date-btn:hover {
+    transform: scale(1.1);
+    background: rgb(245, 242, 242);
+}
+
+.date-btn i {
+    color: black;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+#due-date {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    color-scheme: dark;
+    top: 0;
+    left: 0;
+}
+
+/* 🔴 Overdue */
+.due-date.overdue {
+    color: red;
+    font-weight: bold;
+}
+
+/* 🟡 Today */
+.due-date.today {
+    color: orange;
+    font-weight: bold;
+}
+
+/* 🟢 Upcoming */
+.due-date.upcoming {
+    color: lightgreen;
+    font-weight: bold;
+}
+
+.legend {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 0.9rem;
+    margin-top: -10px;
+}
+
+.legend span {
+    font-weight: bold;
+}
+
+.legend .overdue {
+    color: red;
+}
+
+.legend .today {
+    color: orange;
+}
+
+.legend .upcoming {
+    color: lightgreen;
+}
+
+.legend-labeldate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(124, 118, 118, 0.5);
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;  
+}
+
+.legend-labelprio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(124, 118, 118, 0.5);
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;  
+}
+
+.legend .priority-high {
+    color: #ff976b;
+}
+
+.legend .priority-medium {
+    color: #7c36e4;
+}
+
+.legend .priority-low {
+    color: #3f72df;
+}
+
+@media (max-width: 600px) {
+    .todo-app {
+        padding: 1.5rem;
+        gap: 20px;
+        border-radius: 16px;
+    }
+
+    .todo-app h1 {
+        font-size: 2rem;
+    }
+
+    .input-area {
+        gap: 5px;
+    }
+
+    .input-area input {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .input-area button,
+    .date-btn,
+    #priority-select {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    #task-list {
+        max-height: 250px;
+    }
+
+    #task-list li {
+        font-size: 1rem;
+        padding: 8px 8px;
+        gap: 8px;
+    }
+
+    .priority-badge {
+        font-size: 0.6rem;
+        padding: 4px 5px;
+    }
+
+    .task-buttons button {
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+    }
+
+    .legend {
+        font-size: 0.78rem;
+    }
+
+    .legend-labeldate,
+    .legend-labelprio {
+        font-size: 0.95rem;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .todo-app {
+        padding: 1rem;
+        gap: 15px;
+    }
+
+    .todo-app h1 {
+        font-size: 1.7rem;
+    }
+
+    .input-area input {
+        font-size: 0.9rem;
+        padding: 7px 10px;
+    }
+
+    .input-area button,
+    .date-btn,
+    #priority-select {
+        width: 30px;
+        height: 30px;
+    }
+
+    #task-list {
+        max-height: 200px;
+    }
+
+    #task-list li {
+        font-size: 0.9rem;
+        border-radius: 20px;
+    }
+
+    #task-list span {
+        max-width: 100px;
+    }
+
+    .task-buttons {
+        gap: 6px;
+    }
+
+    .task-buttons button {
+        width: 24px;
+        height: 24px;
+        font-size: 0.65rem;
+    }
+
+    .legend {
+        font-size: 0.7rem;
+        gap: 4px;
+    }
+
+    #empty-image {
+        max-width: 180px;
+    }
+
+    .progress-label {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .todo-app h1 {
+        font-size: 1.4rem;
+    }
+
+    .input-area {
+        gap: 3px;
+    }
+
+    #task-list span {
+        max-width: 80px;
+    }
+
+    .legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+}
+
+
+
